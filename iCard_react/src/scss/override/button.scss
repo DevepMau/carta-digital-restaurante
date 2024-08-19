@@ -1,0 +1,9 @@
+.ui.primary.button {
+    background-color: rgb(23, 23, 23);
+    color: white;
+    border-radius: 8px;
+
+    &:hover, &:focus {
+        background-color: rgb(53, 53, 53);
+    }
+}
