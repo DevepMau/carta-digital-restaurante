@@ -23,6 +23,7 @@ export function AuthProvider(props) {
             setAuth(null);
         }
      })()
+     // eslint-disable-next-line
    }, [])
    
 
