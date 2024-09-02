@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { HeaderPage } from '../../components/Admin';
+import { Loader } from 'semantic-ui-react';
+import { HeaderPage, TableUsers } from '../../components/Admin';
 import { useUser } from '../../hooks';
 
 export function UsersAdmin() {
@@ -15,8 +16,14 @@ export function UsersAdmin() {
 
   return (
     <div>
-        <HeaderPage title='Usuarios' />
-        <h1>Estamos en User Admin</h1>
+        <HeaderPage title='Usuarios' btnTitle='Nuevo Usuario'/>
+        {loading ? (
+            <Loader active inline='centered'>
+                Cargando...
+            </Loader>
+        ) : (
+            <TableUsers users={users}/>
+        )}
     </div>
   )
 }
