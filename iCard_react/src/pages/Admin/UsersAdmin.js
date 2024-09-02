@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { HeaderPage } from '../../components/Admin';
 import { useUser } from '../../hooks';
 
 export function UsersAdmin() {
@@ -13,6 +14,9 @@ export function UsersAdmin() {
     
 
   return (
-    <div>UsersAdmin</div>
+    <div>
+        <HeaderPage title='Usuarios' />
+        <h1>Estamos en User Admin</h1>
+    </div>
   )
 }
