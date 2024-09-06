@@ -32,6 +32,13 @@ export function UsersAdmin() {
       openCloseModal();
     }
 
+    const onDeleteUser = async (data) => {
+      const result = window.confirm(`¿Eliminar usuario ${data.email}`);
+      if(result) {
+        console.log("usuario eliminado");
+      }
+    };
+
   return (
     <div>
         <HeaderPage 
@@ -43,7 +50,7 @@ export function UsersAdmin() {
                 Cargando...
             </Loader>
         ) : (
-            <TableUsers users={users} updateUser={updateUser} />
+            <TableUsers users={users} updateUser={updateUser} onDeleteUser={onDeleteUser} />
         )}
 
         <ModalBasic 
