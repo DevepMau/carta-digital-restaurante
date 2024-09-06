@@ -7,16 +7,16 @@ import './AddEditUserFrom.scss';
 
 export function AddEditUserFrom(props) {
     const { onClose, onRefetch, user } = props;
-    const { addUser } = useUser();
+    const { addUser, updateUser } = useUser();
 
     const formik = useFormik({
         initialValues: initialValues(user),
-        validationSchema: Yup.object(user? newSchema() : updateSchema()),
+        validationSchema: Yup.object(user? updateSchema() : newSchema()),
         validateOnChange: false,
         onSubmit: async (formValue) => {
             try {
                 if(user) {
-                    console.log("actualizar usuario...");
+                    await updateUser(user.id, formValue);
                     
                 }
                 else await addUser(formValue);
