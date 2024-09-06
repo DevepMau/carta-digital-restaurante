@@ -3,14 +3,13 @@ import { Loader } from 'semantic-ui-react';
 import { HeaderPage, TableUsers, AddEditUserFrom } from '../../components/Admin';
 import { ModalBasic } from '../../components/Common';
 import { useUser } from '../../hooks';
-import { upperFirst } from 'lodash';
 
 export function UsersAdmin() {
     const [showModal, setShowModal] = useState(false)
     const [titleModal, setTitleModal] = useState(null)
     const [contentModal, setContentModal] = useState(null)
     const [refetch, setRefetch] = useState(false)
-    const { loading, users, getUsers } = useUser();
+    const { loading, users, getUsers, deleteUser } = useUser();
 
     useEffect(() => {
       getUsers();
@@ -35,7 +34,12 @@ export function UsersAdmin() {
     const onDeleteUser = async (data) => {
       const result = window.confirm(`¿Eliminar usuario ${data.email}`);
       if(result) {
-        console.log("usuario eliminado");
+        try {
+          await deleteUser(data.id);
+          onRefetch();
+        } catch (error) {
+          console.error(error); 
+        }
       }
     };
 
