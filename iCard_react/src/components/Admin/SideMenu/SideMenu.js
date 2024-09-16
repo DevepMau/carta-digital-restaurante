@@ -19,7 +19,7 @@ export function SideMenu(props) {
 function MenuLeft(props) {
   const {pathname} = props;
   const { auth } = useAuth();
-  console.log(auth);
+  //console.log(auth);
   
 
   return (

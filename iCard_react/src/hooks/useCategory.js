@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addCategoryApi, getCategoriesApi, updateCategoryApi } from '../api/category';
+import { addCategoryApi, getCategoriesApi, updateCategoryApi, deleteCategoryApi } from '../api/category';
 import { useAuth } from './';
 
 export function useCategory() {
@@ -42,6 +42,17 @@ export function useCategory() {
         }
     }
 
+    const deleteCategory = async (id) => {
+        try {
+            setLoading(true);
+            await deleteCategoryApi(id, auth.token);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setError(error);
+        }
+    }
+
     return {
         loading,
         error,
@@ -49,5 +60,6 @@ export function useCategory() {
         getCategories,
         addCategory,
         updateCategory,
+        deleteCategory,
     }
 }

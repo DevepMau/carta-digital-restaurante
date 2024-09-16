@@ -4,7 +4,7 @@
  import './TableCategoryAdmin.scss';
 
 export function TableCategoryAdmin(props) {
-    const { categories, updateCategory } = props;
+    const { categories, updateCategory, deleteCategory } = props;
 
   return (
     <Table className='table-category-admin'>
@@ -23,7 +23,11 @@ export function TableCategoryAdmin(props) {
                         <Image src={category.image} />
                     </Table.Cell>
                     <Table.Cell>{category.title}</Table.Cell>
-                    <Actions category={category} updateCategory={updateCategory} />
+                    <Actions 
+                        category={category} 
+                        updateCategory={updateCategory}
+                        deleteCategory={deleteCategory}
+                    />
                 </Table.Row>
             ))}
         </Table.Body>
@@ -32,14 +36,14 @@ export function TableCategoryAdmin(props) {
 }
 
 function Actions(props) {
-    const { category, updateCategory } = props;
+    const { category, updateCategory, deleteCategory } = props;
 
     return (
         <Table.Cell textAlign='right'>
             <Button icon onClick={() => updateCategory(category)}>
                 <Icon name='pencil'/>
             </Button>
-            <Button icon negative onClick={() => console.log("Eliminar categoria")}>
+            <Button icon negative onClick={() => deleteCategory(category)}>
                 <Icon name='close'/>
             </Button>
         </Table.Cell>
