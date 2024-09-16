@@ -7,16 +7,17 @@ import { useCategory } from '../../../../hooks';
 import './AddEditCategoryFrom.scss';
 
 export function AddEditCategoryFrom(props) {
-    const { onClose, onRefetch } = props;
-    const [previewImage, setPreviewImage] = useState(null);
-    const { addCategory } = useCategory();
+    const { onClose, onRefetch, category } = props;
+    const [previewImage, setPreviewImage] = useState(category?.image || null);
+    const { addCategory, updateCategory } = useCategory();
     const formik = useFormik({
-        initialValues: initialValues(),
-        validationSchema: Yup.object(newSchema()),
+        initialValues: initialValues(category),
+        validationSchema: Yup.object(category ? updateSchema() : newSchema()),
         validateOnChange: false,
         onSubmit: async (formValue) => {
             try {
-                await addCategory(formValue);
+                if(category) await updateCategory(category.id, formValue);
+                else await addCategory(formValue);
                 onRefetch();
                 onClose();
             } catch (error) {
@@ -32,7 +33,7 @@ export function AddEditCategoryFrom(props) {
     }, []);
 
     const { getRootProps, getInputProps } = useDropzone({
-        accept: "image/jpeg, image/png",
+        accept: "image/jpeg, image/png, image/jpg",
         noKeyboard: true,
         multiple: false,
         onDrop,
@@ -51,18 +52,18 @@ export function AddEditCategoryFrom(props) {
             fluid 
             color={formik.errors.image && "red"}
             {...getRootProps()}>
-            Subir imagen
+            {previewImage ? 'Cambiar imagen' : 'Subir imagen'}
         </Button>
         <input {...getInputProps()} />
         <Image src={previewImage} fluid/>
-        <Button type='submit' primary fluid content='Crear'/>
+        <Button type='submit' primary fluid content={category ? 'Actualizar' : 'Crear'} />
     </Form>
   )
 }
 
-function initialValues() {
+function initialValues(data) {
     return {
-        title: "",
+        title: data?.title || "",
         image: "",
     }
 }
@@ -71,5 +72,12 @@ function newSchema() {
     return {
         title: Yup.string().required(true),
         image: Yup.string().required(true),
+    };
+}
+
+function updateSchema() {
+    return {
+        title: Yup.string().required(true),
+        image: Yup.string(),
     };
 }

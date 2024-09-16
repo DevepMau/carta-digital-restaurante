@@ -26,6 +26,18 @@ export function CategoriesAdmin() {
       openCloseModal()
     }
 
+    const updateCategory = (data) => {
+      setTitleModal('Actualizar categoria');
+      setContentModal(
+        <AddEditCategoryFrom
+          onClose={openCloseModal}
+          onRefetch={onRefetch}
+          category={data}
+        />
+      );
+      openCloseModal();
+    };
+
   return (
     <>
     <HeaderPage title='Categorias' btnTitle='Nueva categoria' btnClick={addCategory}/>
@@ -34,7 +46,7 @@ export function CategoriesAdmin() {
             Cargando...
         </Loader>
     ) : (
-        <TableCategoryAdmin categories={categories} />
+        <TableCategoryAdmin categories={categories} updateCategory={updateCategory}/>
     )}
 
     <ModalBasic
