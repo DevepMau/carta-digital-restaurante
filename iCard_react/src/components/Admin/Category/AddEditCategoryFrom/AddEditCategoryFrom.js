@@ -3,18 +3,25 @@ import { Form, Image, Button } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useCategory } from '../../../../hooks';
 import './AddEditCategoryFrom.scss';
 
-export function AddEditCategoryFrom() {
+export function AddEditCategoryFrom(props) {
+    const { onClose, onRefetch } = props;
     const [previewImage, setPreviewImage] = useState(null);
+    const { addCategory } = useCategory();
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object(newSchema()),
         validateOnChange: false,
-        onSubmit: (formValue) => {
-            console.log("formulario enviado");
-            console.log(formValue);
-            
+        onSubmit: async (formValue) => {
+            try {
+                await addCategory(formValue);
+                onRefetch();
+                onClose();
+            } catch (error) {
+                console.error(error);
+            }
         }
     });
 
